@@ -23,7 +23,7 @@ module Soulmate
       if ids.size > 0
         results = Soulmate.redis.hmget(database, *ids)
         results = results.reject{ |r| r.nil? } # handle cached results for ids which have since been deleted
-        results.map { |r| MultiJson.decode(r) }
+        results.map { |r| MessagePack.unpack(r) }
       else
         []
       end
